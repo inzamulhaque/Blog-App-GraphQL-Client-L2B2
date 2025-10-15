@@ -1,15 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import Signup from './pages/Signup/Signup';
-import Signin from './pages/Signin/Signin';
-import Posts from './pages/Post/Posts';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Signup from "./pages/Signup/Signup";
+import Signin from "./pages/Signin/Signin";
+import Posts from "./pages/Post/Posts";
+
+const client = new ApolloClient({
+  uri: "http://localhost:7000/",
+  cache: new InMemoryCache(),
+});
 
 const router = createBrowserRouter([
   {
@@ -18,18 +21,21 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Signin></Signin>
+    element: <Signin></Signin>,
   },
   {
     path: "/posts",
-    element: <Posts />
-  }
+    element: <Posts />,
+  },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ApolloProvider client={client}>
+      <RouterProvider router={router} />
+    </ApolloProvider>
+
     {/* <App /> */}
   </React.StrictMode>
 );
