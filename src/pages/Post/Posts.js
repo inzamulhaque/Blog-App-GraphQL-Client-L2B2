@@ -25,7 +25,10 @@ const Posts = () => {
     <div>
       <h1 className="text-center font-bold text-5xl my-4 pb-4">Posts</h1>
       <hr />
-      <PostCard></PostCard>
+
+      {data.posts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
     </div>
   );
 };
